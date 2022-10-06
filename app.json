@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "hactiv-app",
+    "slug": "hactiv-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "hactiv-app"
+}
