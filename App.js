@@ -1,26 +1,12 @@
-import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const url = 'https://randomuser.me/api/';
-import Card from './components/Card';
-
 export default function App() {
-  const [data, setData] = useState([]);
-
-  const getUser = async () => {
-    try{
-      const response = await fetch(url);
-      const json = await response.json();
-      setData(json.results);
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
-
   return (
     <View style={styles.container}>
-      <Card data={data[0]} getUser={getUser} />
+      <Text>Open up App.js to start working on your app!</Text>
+      <StatusBar style="auto" />
     </View>
   );
 }
