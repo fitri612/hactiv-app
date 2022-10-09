@@ -52,7 +52,7 @@ const App = () => {
   const renderLoader = () => {
     return Loading ? (
       <View style={styles.loaderStyle}>
-        <ActivityIndicator size="large" color="#aaa" />
+        <ActivityIndicator size="large" color="beige" />
       </View>
     ) : null;
   };
