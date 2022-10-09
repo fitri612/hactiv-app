@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-// import type {Node} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -8,10 +6,8 @@ import {
   View,
   Image,
   StyleSheet,
-  ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-// import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import axios from 'axios';
 import IcRight from './assets/right.png';
@@ -19,17 +15,19 @@ import IcRight from './assets/right.png';
 const App = () => {
   const [data, setdata] = useState([]);
   const [currentPage, setCurrentPage] = useState([]);
-  const [Loading, setLoading] = useState(false);
+
+  const fixedUrl = 'https://randomuser.me/api/';
+  const EndPoint = `?page=${currentPage}&results=0`;
 
   const getData = () => {
-    setLoading(true);
-    axios
-      .get(`https://randomuser.me/api/?page=${currentPage}&results=2`)
-      .then(res => {
-        setdata([...data, ...res.data.results]);
-        setLoading(false);
-      });
+    axios.get(fixedUrl + EndPoint).then(res => {
+      setdata([...data, ...res.data.results]);
+    });
   };
+
+  useEffect(() => {
+    getData();
+  }, [currentPage]);
 
   const renderData = ({item}) => {
     return (
@@ -39,7 +37,10 @@ const App = () => {
           <Text style={styles.text}>
             {`${item.name.title} ${item.name.first} ${item.name.last}`}
           </Text>
-          <Text style={styles.textLocation}>{`${item.location.street.number} ${item.location.street.name}`}</Text>
+          <Text
+            style={
+              styles.textLocation
+            }>{`${item.location.street.number} ${item.location.street.name}`}</Text>
           <Text style={styles.textMail}>{item.email}</Text>
         </View>
         <TouchableOpacity activeOpacity={0.7}>
@@ -49,21 +50,9 @@ const App = () => {
     );
   };
 
-  const renderLoader = () => {
-    return Loading ? (
-      <View style={styles.loaderStyle}>
-        <ActivityIndicator size="large" color="beige" />
-      </View>
-    ) : null;
-  };
-
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
   };
-
-  useEffect(() => {
-    getData();
-  }, [currentPage]);
 
   return (
     <View style={styles.body}>
@@ -75,7 +64,6 @@ const App = () => {
           data={data}
           renderItem={renderData}
           keyExtractor={item => item.email}
-          ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
           onEndReachedThreshold={0}
         />
@@ -120,10 +108,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Poppins-Regular',
   },
-  loaderStyle: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
   header: {
     height: 100,
     backgroundColor: '#242424',
@@ -146,7 +130,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 5,
   },
-
 });
 
 export default App;
